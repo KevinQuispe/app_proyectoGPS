@@ -74,7 +74,6 @@
                     android:stepSize="1.0" />
             </LinearLayout>
 
-
             <Button
                 android:id="@+id/bntenviar"
                 android:layout_width="match_parent"
