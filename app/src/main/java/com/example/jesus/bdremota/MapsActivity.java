@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -37,8 +38,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double lng = 0.0;
     String mensaje1;
     String direccion = "";
+    String pais = "";
 
-    String direc, calle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,36 +66,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(settingsIntent);
         }
-
     }
 
-    private void setLocation(Location loc) {
+    public void setLocation(Location loc) {
         //Obtener la direccion de la calle a partir de la latitud y la longitud
         if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
             try {
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> list = geocoder.getFromLocation(
-                        loc.getLatitude(), loc.getLongitude(), 1);
+                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+
                 if (!list.isEmpty()) {
+                    //obtner la direccion
                     Address DirCalle = list.get(0);
                     direccion = (DirCalle.getAddressLine(0));
-                }
+                    //obten el pais
+                    Locale country = new Locale("", "PE");
+                    pais = country.getDisplayCountry();
 
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
 
+    }
     //agregar el marcador en el mapa
     private void AgregarMarcador(double lat, double lng) {
         LatLng coordenadas = new LatLng(lat, lng);
-        CameraUpdate MiUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, 16);
+        //tipo de mapa
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        UiSettings uiSettings=mMap.getUiSettings();
+        uiSettings.setZoomControlsEnabled(true);
+        float zoomlevel=17.5f;
+        CameraUpdate MiUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, zoomlevel);
+
         if (marcador != null) marcador.remove();
         marcador = mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Dirección:" + direccion)
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+
         mMap.animateCamera(MiUbicacion);
     }
 
@@ -138,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     };
     private static int PETICION_PERMISO_LOCALIZACION = 101;
 
-    public void miUbicacion() {
+    private void miUbicacion() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -149,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             ActualizarUbicacion(location);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1200, 0, locListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1200,0,locListener);
         }
 
     }

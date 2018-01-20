@@ -12,33 +12,52 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    MapView mMapView;
+    private GoogleMap googleMap;
+
     private Marker marcador;
     double lat = 0.0;
     double lng = 0.0;
     String mensaje1;
     String direccion = "";
-    String direc, calle;
+    String pais = "";
 
+    public LugaresFavoritos(){
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +66,10 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
-
+   
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -64,36 +84,47 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
             Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(settingsIntent);
         }
-
     }
 
-    private void setLocation(Location loc) {
+    public void setLocation(Location loc) {
         //Obtener la direccion de la calle a partir de la latitud y la longitud
         if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
             try {
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> list = geocoder.getFromLocation(
-                        loc.getLatitude(), loc.getLongitude(), 1);
+                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+
                 if (!list.isEmpty()) {
+                    //obtner la direccion
                     Address DirCalle = list.get(0);
                     direccion = (DirCalle.getAddressLine(0));
-                }
+                    //obten el pais
+                    Locale country = new Locale("", "PE");
+                    pais = country.getDisplayCountry();
 
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
 
+    }
     //agregar el marcador en el mapa
     private void AgregarMarcador(double lat, double lng) {
         LatLng coordenadas = new LatLng(lat, lng);
-        CameraUpdate MiUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, 16);
+        //tipo de mapa
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        UiSettings uiSettings=mMap.getUiSettings();
+        uiSettings.setZoomControlsEnabled(true);
+        float zoomlevel=17.5f;
+        CameraUpdate MiUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, zoomlevel);
+
         if (marcador != null) marcador.remove();
         marcador = mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Dirección:" + direccion)
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+
         mMap.animateCamera(MiUbicacion);
     }
 
@@ -137,7 +168,7 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
     };
     private static int PETICION_PERMISO_LOCALIZACION = 101;
 
-    public void miUbicacion() {
+    private void miUbicacion() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -148,7 +179,7 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             ActualizarUbicacion(location);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1200,0,locListener);
         }
 
     }
@@ -159,3 +190,4 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
         toast.show();
     }
 }
+

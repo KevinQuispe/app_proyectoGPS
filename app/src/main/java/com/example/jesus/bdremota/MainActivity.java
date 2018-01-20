@@ -12,13 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.example.jesus.bdremota.Fragmentos.BienvenidoFrag;
-import com.example.jesus.bdremota.Fragmentos.ConsultarListaUsuarioImagenFragment;
-import com.example.jesus.bdremota.Fragmentos.ConsultarUsuario2;
-import com.example.jesus.bdremota.Fragmentos.ConsultarUsuarioFrag;
-import com.example.jesus.bdremota.Fragmentos.DesarrolladorFrag;
+import com.example.jesus.bdremota.Fragmentos.*;
 import com.example.jesus.bdremota.Fragmentos.LugaresFavoritos;
-import com.example.jesus.bdremota.Fragmentos.RegistrarUsuarioFrag;
 import com.example.jesus.bdremota.Interfaces.iFragments;
 
 public class MainActivity extends AppCompatActivity
@@ -52,6 +47,7 @@ public class MainActivity extends AppCompatActivity
         //transaction.commit();
         //}
         //});
+
     }
 
     @Override

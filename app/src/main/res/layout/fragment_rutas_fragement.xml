@@ -2,13 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.bdremota.Fragmentos.LugaresFavoritos">
+    tools:context="com.example.jesus.bdremota.Fragmentos.RutasFragement">
 
     <!-- TODO: Update blank fragment layout -->
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    />
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>
