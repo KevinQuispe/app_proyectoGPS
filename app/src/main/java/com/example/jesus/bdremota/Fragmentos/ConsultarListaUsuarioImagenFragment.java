@@ -30,16 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ConsultarListaUsuarioImagenFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ConsultarListaUsuarioImagenFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ConsultarListaUsuarioImagenFragment extends Fragment implements Response.Listener<JSONObject>,Response.ErrorListener{
+public class ConsultarListaUsuarioImagenFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,14 +53,6 @@ public class ConsultarListaUsuarioImagenFragment extends Fragment implements Res
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ConsultarListaUsuarioImagenFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ConsultarListaUsuarioImagenFragment newInstance(String param1, String param2) {
         ConsultarListaUsuarioImagenFragment fragment = new ConsultarListaUsuarioImagenFragment();
@@ -92,24 +75,24 @@ public class ConsultarListaUsuarioImagenFragment extends Fragment implements Res
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista= inflater.inflate(R.layout.fragment_consultar_lista_usuario_imagen, container, false);
-        listaUsuarios=new ArrayList<>();
-        recyclerUsuarios= (RecyclerView) vista.findViewById(R.id.idRecyclerImagen);
+        View vista = inflater.inflate(R.layout.fragment_consultar_lista_usuario_imagen, container, false);
+        listaUsuarios = new ArrayList<>();
+        recyclerUsuarios = (RecyclerView) vista.findViewById(R.id.idRecyclerImagen);
         recyclerUsuarios.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerUsuarios.setHasFixedSize(true);
 
-        requestQueue= Volley.newRequestQueue(getContext());
+        requestQueue = Volley.newRequestQueue(getContext());
         cargarWebService();
 
         return vista;
     }
 
     private void cargarWebService() {
-        dialog=new ProgressDialog(getContext());
+        dialog = new ProgressDialog(getContext());
         dialog.setMessage("consultando Imagenes");
         dialog.show();
-        String url="http://"+ iFragments.ip+"/ejemploBDremota/wsJSONConsultarListaImagenes.php";
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,url,null,this,this);
+        String url = "http://" + iFragments.ip + "/ejemploBDremota/wsJSONConsultarListaImagenes.php";
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -139,21 +122,21 @@ public class ConsultarListaUsuarioImagenFragment extends Fragment implements Res
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"error "+error.toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "error " + error.toString(), Toast.LENGTH_SHORT).show();
         dialog.hide();
-        Log.i("ERROR ==>> ",error.toString());
+        Log.i("ERROR ==>> ", error.toString());
     }
 
     @Override
     public void onResponse(JSONObject response) {
         dialog.hide();
-        Usuario user=null;
-        JSONArray json=response.optJSONArray("usuario");
+        Usuario user = null;
+        JSONArray json = response.optJSONArray("usuario");
         try {
-            for (int i=0;i<json.length();i++){
-                user=new Usuario();
-                JSONObject jsonObject=null;
-                jsonObject=json.getJSONObject(i);
+            for (int i = 0; i < json.length(); i++) {
+                user = new Usuario();
+                JSONObject jsonObject = null;
+                jsonObject = json.getJSONObject(i);
                 user.setDni(jsonObject.optString("DNI"));
                 user.setNombre(jsonObject.optString("NOMBRE"));
                 user.setProfesion(jsonObject.optString("PROFESION"));
@@ -161,25 +144,15 @@ public class ConsultarListaUsuarioImagenFragment extends Fragment implements Res
                 listaUsuarios.add(user);
             }
             dialog.hide();
-            usuariosAdapterImage adapter= new usuariosAdapterImage(listaUsuarios);
+            usuariosAdapterImage adapter = new usuariosAdapterImage(listaUsuarios);
             recyclerUsuarios.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(),"error en conexion",Toast.LENGTH_SHORT).show();
-           dialog.hide();
+            Toast.makeText(getContext(), "error en conexion", Toast.LENGTH_SHORT).show();
+            dialog.hide();
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

@@ -1,12 +1,7 @@
 package com.example.jesus.bdremota;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,11 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ToggleButton;
 
 import com.example.jesus.bdremota.Fragmentos.BienvenidoFrag;
 import com.example.jesus.bdremota.Fragmentos.ConsultarListaUsuarioImagenFragment;
-import com.example.jesus.bdremota.Fragmentos.ConsultarListaUsuariosFrag;
 import com.example.jesus.bdremota.Fragmentos.ConsultarUsuario2;
 import com.example.jesus.bdremota.Fragmentos.ConsultarUsuarioFrag;
 import com.example.jesus.bdremota.Fragmentos.DesarrolladorFrag;
@@ -32,6 +25,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, iFragments {
     //botton gps
     Button ubicame;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,16 +41,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ubicame=(Button) findViewById(R.id.btnubicame);
-       // ubicame.setOnClickListener(new View.OnClickListener() {
+        ubicame = (Button) findViewById(R.id.btnubicame);
+        // ubicame.setOnClickListener(new View.OnClickListener() {
 
-         //   @Override
-           // public void onClick(View view) {
-                //BienvenidoFrag b=new BienvenidoFrag();
-               // FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
-                //transaction.replace(R.id.contenedorFragment,b);
-                //transaction.commit();
-            //}
+        //   @Override
+        // public void onClick(View view) {
+        //BienvenidoFrag b=new BienvenidoFrag();
+        // FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
+        //transaction.replace(R.id.contenedorFragment,b);
+        //transaction.commit();
+        //}
         //});
     }
 
@@ -105,19 +99,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_Inicio) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new BienvenidoFrag()).commit();
-        }
-        else if (id == R.id.nav_Listfavoritos) {
+        } else if (id == R.id.nav_Listfavoritos) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new LugaresFavoritos()).commit();
-        }
-        else if (id == R.id.nav_Cons_User) {
+        } else if (id == R.id.nav_Cons_User) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new ConsultarUsuarioFrag()).commit();
-        }
-        else if (id == R.id.nav_ListUserImage) {
+        } else if (id == R.id.nav_ListUserImage) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new ConsultarListaUsuarioImagenFragment()).commit();
-        }
-        else if (id == R.id.nav_Desarrollador) {
+        } else if (id == R.id.nav_Desarrollador) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new DesarrolladorFrag()).commit();
-        }else if (id == R.id.nav_Cons_User2) {
+        } else if (id == R.id.nav_Cons_User2) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new ConsultarUsuario2()).commit();
         }
 

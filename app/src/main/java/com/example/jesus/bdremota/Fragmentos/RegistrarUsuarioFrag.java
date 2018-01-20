@@ -64,21 +64,11 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static android.Manifest.permission.CAMERA;
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RegistrarUsuarioFrag.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RegistrarUsuarioFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RegistrarUsuarioFrag extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
 
     //sirven
     private final String CARPETA_RAIZ="Imagenes/";
