@@ -1,0 +1,109 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jesus.bdremota.Fragmentos.ConsultarUsuarioFrag">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/linearL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consultar Usuarios"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/ETDni2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="DNI"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/btnCargar2"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Buscar"
+                android:textColor="@color/colortextoboton"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:background="@drawable/background_signup"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/TVNombre2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="nombre"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/TVProfesion2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Profesion"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/IVimagen2"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_person_black_24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+
+                android:id="@+id/btnActualizar"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.57"
+                android:text="Actualizar"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:background="@drawable/background_signup"
+                android:textColor="@color/colortextoboton"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnEliminar"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.44"
+                android:text="Eliminar"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:background="@drawable/background_signup"
+                android:textColor="@color/colortextoboton"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
