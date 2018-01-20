@@ -37,7 +37,6 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
     double lng = 0.0;
     String mensaje1;
     String direccion = "";
-
     String direc, calle;
 
     @Override
