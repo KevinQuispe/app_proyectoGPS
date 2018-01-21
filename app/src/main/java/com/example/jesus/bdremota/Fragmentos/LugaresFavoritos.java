@@ -2,12 +2,14 @@ package com.example.jesus.bdremota.Fragmentos;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -31,7 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
+public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,android.location.LocationListener {
 
     private GoogleMap mMap;
     MapView mMapView;
@@ -44,6 +46,8 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
     String mensaje1;
     String direccion = "";
     String pais = "";
+    private LocationManager mLocationManager = null;
+    Location mLastLocation;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -69,7 +73,6 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mMapView=(MapView) mView.findViewById(R.id.map);
+
         if (mMapView!=null){
             mMapView.onCreate(null);
             mMapView.onResume();
@@ -109,6 +113,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
         //CameraPosition peru=CameraPosition.builder().target( new LatLng(9.365198,-75.0195)).zoom(4).bearing(0).build();
         //googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(peru));
         miUbicacion();
+
     }
 
     private static int PETICION_PERMISO_LOCALIZACION = 101;
@@ -155,16 +160,26 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
             lng = location.getLongitude();
             AgregarMarcador(lat, lng);
 
+
+        }
+    }
+    //activar los servicios del gps cuando esten apagados
+    public void locationStart() {
+        LocationManager mlocManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!gpsEnabled) {
+            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(settingsIntent);
         }
     }
     //control del gps
-    LocationListener locListener = new LocationListener() {
+      LocationListener locListener = new LocationListener() {
 
         @Override
         public void onLocationChanged(Location location) {
-
-            ActualizarUbicacion(location);
-
+            //ActualizarUbicacion(location);
+            //setear la ubicacion
+            //mLastLocation.set(location);
         }
 
         @Override
@@ -182,6 +197,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
         @Override
         public void onProviderDisabled(String s) {
             mensaje1 = ("GPS Desactivado");
+            //locationStart();
             Mensaje();
 
         }
@@ -193,6 +209,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
         toast.show();
     }
 
+    //new code
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -214,6 +231,27 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        ActualizarUbicacion(location);
+        //setear la ubicacion
+        mLastLocation.set(location);
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
     }
 
     public interface OnFragmentInteractionListener {

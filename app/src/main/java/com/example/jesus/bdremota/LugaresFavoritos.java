@@ -55,9 +55,10 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
     String direccion = "";
     String pais = "";
 
-    public LugaresFavoritos(){
+    public LugaresFavoritos() {
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,7 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
 
     }
 
-   
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -108,14 +109,15 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
         }
 
     }
+
     //agregar el marcador en el mapa
     private void AgregarMarcador(double lat, double lng) {
         LatLng coordenadas = new LatLng(lat, lng);
         //tipo de mapa
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        UiSettings uiSettings=mMap.getUiSettings();
+        UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        float zoomlevel=17.5f;
+        float zoomlevel = 17.5f;
         CameraUpdate MiUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, zoomlevel);
 
         if (marcador != null) marcador.remove();
@@ -179,7 +181,7 @@ public class LugaresFavoritos extends FragmentActivity implements OnMapReadyCall
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             ActualizarUbicacion(location);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1200,0,locListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1200, 0, locListener);
         }
 
     }
