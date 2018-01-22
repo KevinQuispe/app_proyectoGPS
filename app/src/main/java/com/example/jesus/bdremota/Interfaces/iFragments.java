@@ -16,5 +16,6 @@ import com.example.jesus.bdremota.Fragmentos.RegistrarUsuarioFrag;
 public interface iFragments extends LugaresFavoritos.OnFragmentInteractionListener, BienvenidoFrag.OnFragmentInteractionListener,ConsultarListaUsuariosFrag.OnFragmentInteractionListener
         ,ConsultarUsuarioFrag.OnFragmentInteractionListener,DesarrolladorFrag.OnFragmentInteractionListener,RegistrarUsuarioFrag.OnFragmentInteractionListener,
         ConsultarListaUsuarioImagenFragment.OnFragmentInteractionListener,ConsultarUsuario2.OnFragmentInteractionListener{
+
         public String ip="192.168.1.250:8080";
 }

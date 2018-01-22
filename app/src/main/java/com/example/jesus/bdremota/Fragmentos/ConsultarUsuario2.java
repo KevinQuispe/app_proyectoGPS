@@ -61,6 +61,16 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static android.Manifest.permission.CAMERA;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link ConsultarUsuario2.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link ConsultarUsuario2#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class ConsultarUsuario2 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -276,7 +286,7 @@ public class ConsultarUsuario2 extends Fragment {
         dialog=new ProgressDialog(getContext());
         dialog.setMessage("cargando...");
         dialog.show();
-        String url="http://"+ iFragments.ip+"ejemploBDRemota/wsJSONConsultarUsuarioImagenURL.php?DNI="+ETdni.getText().toString();
+        String url="http://"+ iFragments.ip+"/ejemploBDRemota/wsJSONConsultarUsuarioImagenURL.php?DNI="+ETdni.getText().toString();
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -523,6 +533,17 @@ public class ConsultarUsuario2 extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

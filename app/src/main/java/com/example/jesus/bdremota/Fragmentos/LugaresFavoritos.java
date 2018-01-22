@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.jesus.bdremota.MainActivity;
 import com.example.jesus.bdremota.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -91,6 +92,8 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
     }
 
     //HERE MY CODE
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -148,7 +151,6 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
                 .title("Dirección:" + direccion)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
-
         mMap.animateCamera(MiUbicacion);
     }
 
@@ -159,8 +161,6 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
             lat = location.getLatitude();
             lng = location.getLongitude();
             AgregarMarcador(lat, lng);
-
-
         }
     }
     //activar los servicios del gps cuando esten apagados
@@ -179,7 +179,8 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
         public void onLocationChanged(Location location) {
             //ActualizarUbicacion(location);
             //setear la ubicacion
-            //mLastLocation.set(location);
+
+
         }
 
         @Override
@@ -209,6 +210,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
         toast.show();
     }
 
+
     //new code
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -237,7 +239,8 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
     public void onLocationChanged(Location location) {
         ActualizarUbicacion(location);
         //setear la ubicacion
-        mLastLocation.set(location);
+         //mLastLocation.set(location);
+
     }
 
     @Override

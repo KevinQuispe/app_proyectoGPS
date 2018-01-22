@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.jesus.bdremota.R;
@@ -31,7 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,android.location.LocationListener {
+public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, android.location.LocationListener {
 
     //declare variables
     private GoogleMap mMap;
@@ -48,6 +49,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
     private LocationManager mLocationManager = null;
     Location mLastLocation;
 
+    Button ubicame;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,10 +80,12 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     //here after apply changes
@@ -89,17 +93,20 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView=inflater.inflate(R.layout.fragment_bienvenido, container, false);
-        return  mView;
+
+        mView = inflater.inflate(R.layout.fragment_bienvenido, container, false);
+
+        return mView;
     }
+
 
     //HERE MY CODE
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mMapView=(MapView) mView.findViewById(R.id.map);
+        mMapView = (MapView) mView.findViewById(R.id.map);
 
-        if (mMapView!=null){
+        if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
             mMapView.getMapAsync(this);
@@ -109,7 +116,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
-        mMap=googleMap;
+        mMap = googleMap;
         //googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         //googleMap.addMarker(new MarkerOptions().position(new LatLng(-9.365198,-75.0195))
         //      .title("Peru:")
@@ -119,6 +126,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
         miUbicacion();
 
     }
+
     private static int PETICION_PERMISO_LOCALIZACION = 101;
 
     private void miUbicacion() {
@@ -132,17 +140,18 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             ActualizarUbicacion(location);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1200,0,locListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1200, 0, locListener);
         }
     }
+
     //agregar el marcador en el mapa
     private void AgregarMarcador(double lat, double lng) {
         LatLng coordenadas = new LatLng(lat, lng);
         //tipo de mapa
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        UiSettings uiSettings=mMap.getUiSettings();
+        UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        float zoomlevel=17.5f;
+        float zoomlevel = 15.5f;
         CameraUpdate MiUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, zoomlevel);
 
         if (marcador != null) marcador.remove();
@@ -154,6 +163,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
 
         mMap.animateCamera(MiUbicacion);
     }
+
     //actualizar la ubicacion
     private void ActualizarUbicacion(Location location) {
         if (location != null) {
@@ -161,9 +171,9 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
             lng = location.getLongitude();
             AgregarMarcador(lat, lng);
 
-
         }
     }
+
     //activar los servicios del gps cuando esten apagados
     public void locationStart() {
         LocationManager mlocManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -204,6 +214,14 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback,andro
 
         }
     };
+
+    public void mostrarcordenadas(Location loc) {
+        loc.getLatitude();
+        loc.getLongitude();
+        String text = "Mis puntos" + "lat: " + loc.getLatitude() + "long: " + loc.getLongitude();
+        Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
+        //locListener.onLocationChanged(location);
+    }
 
     public void Mensaje() {
         Toast toast = Toast.makeText(getContext(), mensaje1, Toast.LENGTH_LONG);
