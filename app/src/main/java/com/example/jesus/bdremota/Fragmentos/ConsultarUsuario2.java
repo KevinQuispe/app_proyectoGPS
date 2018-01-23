@@ -94,6 +94,7 @@ public class ConsultarUsuario2 extends Fragment {
     String path;//ruta imagen
     StringRequest stringRequest;
     Bitmap bitmap;
+
     private OnFragmentInteractionListener mListener;
 
     public ConsultarUsuario2() {

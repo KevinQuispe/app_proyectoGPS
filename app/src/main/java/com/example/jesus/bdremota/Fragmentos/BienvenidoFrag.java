@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jesus.bdremota.R;
@@ -54,8 +55,8 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
     String pais = "";
     private LocationManager mLocationManager = null;
     Location mLastLocation;
-
     Button ubicame;
+    EditText direction,country;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,6 +93,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
     }
 
     //here after apply changes
@@ -99,8 +101,18 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         mView = inflater.inflate(R.layout.fragment_bienvenido, container, false);
+        direction=(EditText) mView.findViewById(R.id.textdireccion);
+        country=(EditText) mView.findViewById(R.id.txtciudad);
+        ubicame=(Button) mView.findViewById(R.id.btnubicame);
+        ubicame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarDatos();
+            }
+        });
+
+
 
         return mView;
     }
@@ -168,6 +180,31 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
         //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
 
         mMap.animateCamera(MiUbicacion);
+    }
+    public void mostrarDatos(){
+        String country_name = null;
+        String direccionexacta = null;
+        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Geocoder geocoder = new Geocoder(getActivity());
+        for(String provider: lm.getAllProviders()) {
+            @SuppressWarnings("ResourceType") Location location = lm.getLastKnownLocation(provider);
+            if(location!=null) {
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    if(addresses != null && addresses.size() > 0) {
+                        country_name = addresses.get(0).getCountryName();
+                        Address DirCalle = addresses.get(0);
+                        direccion = (DirCalle.getAddressLine(0));
+                        break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        country.setText(country_name);
+        direction.setText(direccion);
+        Toast.makeText(getActivity(), "Tu Ubicacion", Toast.LENGTH_LONG).show();
     }
 
     //actualizar la ubicacion

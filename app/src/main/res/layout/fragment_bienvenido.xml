@@ -8,10 +8,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <Button
                 android:id="@+id/btnubicame"
                 android:layout_width="match_parent"
@@ -41,16 +43,16 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/textView5"
+                    android:id="@+id/textdireccion"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="#d1c4e9"
                     android:hint="Direccion"
                     android:padding="5dp" />
 
                 <EditText
-                    android:id="@+id/textView6"
+                    android:id="@+id/txtciudad"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginTop="5dp"
