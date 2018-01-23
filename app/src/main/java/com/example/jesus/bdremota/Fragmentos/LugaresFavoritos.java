@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -33,6 +35,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,android.location.LocationListener {
 
@@ -92,8 +98,6 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
     }
 
     //HERE MY CODE
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -132,7 +136,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             ActualizarUbicacion(location);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1200,0,locListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,0,locListener);
         }
     }
     //agregar el marcador en el mapa
@@ -142,7 +146,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings=mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        float zoomlevel=17.5f;
+        float zoomlevel=15.5f;
         CameraUpdate MiUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, zoomlevel);
 
         if (marcador != null) marcador.remove();
@@ -172,15 +176,36 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
             startActivity(settingsIntent);
         }
     }
+    //setear mi position
+    public void setLocation(Location loc) {
+        //Obtener la direccion de la calle a partir de la latitud y la longitud
+        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
+            try {
+                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+
+                if (!list.isEmpty()) {
+                    //obtner la direccion
+                    Address DirCalle = list.get(0);
+                    direccion = (DirCalle.getAddressLine(0));
+                    //obten el pais
+                    Locale country = new Locale("", "PE");
+                    pais = country.getDisplayCountry();
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
     //control del gps
       LocationListener locListener = new LocationListener() {
 
         @Override
         public void onLocationChanged(Location location) {
-            //ActualizarUbicacion(location);
-            //setear la ubicacion
-
-
+            ActualizarUbicacion(location);
+            setLocation(location);
         }
 
         @Override
@@ -239,6 +264,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
     public void onLocationChanged(Location location) {
         ActualizarUbicacion(location);
         //setear la ubicacion
+            //setLocation(location);
          //mLastLocation.set(location);
 
     }

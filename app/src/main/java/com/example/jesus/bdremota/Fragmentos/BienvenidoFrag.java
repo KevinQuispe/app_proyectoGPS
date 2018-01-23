@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,6 +33,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, android.location.LocationListener {
 
@@ -140,7 +146,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             ActualizarUbicacion(location);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1200, 0, locListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListener);
         }
     }
 
@@ -183,14 +189,37 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
             startActivity(settingsIntent);
         }
     }
+    //setear mi position
+    public void setLocation(Location loc) {
+        //Obtener la direccion de la calle a partir de la latitud y la longitud
+        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
+            try {
+                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+
+                if (!list.isEmpty()) {
+                    //obtner la direccion
+                    Address DirCalle = list.get(0);
+                    direccion = (DirCalle.getAddressLine(0));
+                    //obten el pais
+                    Locale country = new Locale("", "PE");
+                    pais = country.getDisplayCountry();
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     //control del gps
     LocationListener locListener = new LocationListener() {
 
         @Override
         public void onLocationChanged(Location location) {
-            //ActualizarUbicacion(location);
-            //setear la ubicacion
+            ActualizarUbicacion(location);
+            setLocation(location);
             //mLastLocation.set(location);
         }
 
@@ -235,7 +264,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
     public void onLocationChanged(Location location) {
         ActualizarUbicacion(location);
         //setear la ubicacion
-        mLastLocation.set(location);
+        //mLastLocation.set(location);
     }
 
     @Override

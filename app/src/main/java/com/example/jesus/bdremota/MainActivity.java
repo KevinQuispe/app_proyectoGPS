@@ -1,5 +1,6 @@
 package com.example.jesus.bdremota;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -106,7 +107,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_Cons_User2) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new ConsultarUsuario2()).commit();
         }
-
+        else if (id == R.id.nav_salir) {
+            Intent intent=new Intent(getApplicationContext(),MapsActivity.class);
+                finish();
+                //onDestroy();
+             }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
