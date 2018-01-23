@@ -20,7 +20,6 @@ import com.example.jesus.bdremota.Interfaces.iFragments;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, iFragments {
     //botton gps
-    Button ubicame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        ubicame = (Button) findViewById(R.id.btnubicame);
         // ubicame.setOnClickListener(new View.OnClickListener() {
 
         //   @Override
@@ -108,10 +105,7 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment, new ConsultarUsuario2()).commit();
         }
         else if (id == R.id.nav_salir) {
-            Intent intent=new Intent(getApplicationContext(),MapsActivity.class);
-                finish();
-                //onDestroy();
-             }
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

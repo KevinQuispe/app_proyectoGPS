@@ -205,7 +205,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
         @Override
         public void onLocationChanged(Location location) {
             ActualizarUbicacion(location);
-            setLocation(location);
+            //setLocation(location);
         }
 
         @Override
@@ -262,7 +262,7 @@ public class LugaresFavoritos extends Fragment implements OnMapReadyCallback,and
 
     @Override
     public void onLocationChanged(Location location) {
-        ActualizarUbicacion(location);
+        //ActualizarUbicacion(location);
         //setear la ubicacion
             //setLocation(location);
          //mLastLocation.set(location);

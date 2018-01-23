@@ -299,7 +299,7 @@ public class BienvenidoFrag extends Fragment implements OnMapReadyCallback, andr
 
     @Override
     public void onLocationChanged(Location location) {
-        ActualizarUbicacion(location);
+         //ActualizarUbicacion(location);
         //setear la ubicacion
         //mLastLocation.set(location);
     }
