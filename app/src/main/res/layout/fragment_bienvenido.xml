@@ -77,7 +77,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/bntenviar"
+                android:id="@+id/btnenviar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorboton"

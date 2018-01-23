@@ -8,6 +8,7 @@ import com.example.jesus.bdremota.Fragmentos.ConsultarUsuarioFrag;
 import com.example.jesus.bdremota.Fragmentos.DesarrolladorFrag;
 import com.example.jesus.bdremota.Fragmentos.LugaresFavoritos;
 import com.example.jesus.bdremota.Fragmentos.RegistrarUsuarioFrag;
+import com.example.jesus.bdremota.Fragmentos.RutasFragement;
 
 /**
  * Created by jesus on 4/12/2017.
